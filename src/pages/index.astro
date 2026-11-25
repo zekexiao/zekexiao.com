@@ -17,14 +17,6 @@ const dateFmt = new Intl.DateTimeFormat('zh-CN', { dateStyle: 'medium' });
   <section class="hero">
     <div class="container hero-grid">
       <div class="hero-copy">
-        <img
-          src="/avatar.webp"
-          alt="Zeke Xiao 的头像"
-          width="80"
-          height="80"
-          class="avatar"
-          fetchpriority="high"
-        />
         <h1 class="hero-name" translate="no">
           <span>ZEKE</span>
           <span class="hero-name-2">XIAO</span>
@@ -131,13 +123,6 @@ const dateFmt = new Intl.DateTimeFormat('zh-CN', { dateStyle: 'medium' });
   }
   .hero-copy {
     grid-column: span 7;
-  }
-  .avatar {
-    width: 5rem;
-    height: 5rem;
-    border: var(--rule);
-    border-radius: 50%;
-    margin-bottom: 1.25rem;
   }
   .hero-name {
     font-weight: 300;
