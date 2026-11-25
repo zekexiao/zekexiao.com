@@ -1,0 +1,188 @@
+/* ---------- Tokens ---------- */
+:root {
+  --black: #0b0b0b;
+  --white: #ffffff;
+  --steel: #6e7378;
+
+  --bg: var(--white);
+  --ink: var(--black);
+  --ink-soft: var(--steel);
+  --rule: 2px solid var(--ink);
+  --rule-thin: 1px solid var(--ink);
+
+  --font-sans: 'IBM Plex Sans Variable', 'PingFang SC', 'Microsoft YaHei',
+    'Noto Sans SC', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, Consolas, monospace;
+
+  --measure: 70ch;
+  --shadow-offset: 4px 4px 0 var(--ink);
+
+  color-scheme: light;
+}
+
+/* ---------- Reset / base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (pointer: fine) {
+  html {
+    overscroll-behavior: none;
+  }
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.7;
+  font-size: 1rem;
+  overflow-wrap: break-word;
+}
+
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+}
+
+a,
+button,
+[role='button'] {
+  touch-action: manipulation;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  padding: 0.5rem 1rem;
+  background: var(--ink);
+  color: var(--bg);
+  font-weight: 500;
+  text-decoration: none;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip-link:focus-visible {
+  clip-path: none;
+  outline-color: var(--bg);
+}
+
+[id],
+.prose :is(h1, h2, h3, h4, h5, h6) {
+  scroll-margin-top: 4.5rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 500;
+  text-wrap: balance;
+}
+
+strong,
+b,
+th {
+  font-weight: 500;
+}
+
+/* ---------- Utilities ---------- */
+.container {
+  width: min(
+    100% - 2rem - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px),
+    64rem
+  );
+  margin-inline: auto;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.section {
+  padding-block: clamp(2rem, 5vw, 3.5rem);
+  border-top: var(--rule);
+}
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.section-num {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-soft);
+}
+
+.section-title {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+/* thick link underline that fills on hover */
+.u-link {
+  text-decoration: none;
+  background-image: linear-gradient(var(--ink), var(--ink));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 100% 2px;
+}
+
+.u-link:hover {
+  background-size: 100% 100%;
+  color: var(--bg);
+}
+
+/* ---------- Motion ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .card {
+    transition: transform 0.18s ease;
+  }
+  .card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--ink);
+  }
+}

@@ -1,0 +1,145 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const posts = (await getCollection('blog', ({ data }) =>
+  import.meta.env.PROD ? !data.draft : true,
+)).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const byYear = new Map<number, typeof posts>();
+for (const p of posts) {
+  const y = p.data.pubDate.getFullYear();
+  if (!byYear.has(y)) byYear.set(y, []);
+  byYear.get(y)!.push(p);
+}
+const years = [...byYear.keys()].sort((a, b) => b - a);
+const dateFmt = new Intl.DateTimeFormat('zh-CN', { dateStyle: 'medium' });
+---
+
+<BaseLayout title="博客" description="全部文章">
+  <section class="section blog-index">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-num">博客</span>
+        <h1 class="section-title">全部文章</h1>
+      </div>
+
+      {years.length === 0 ? (
+        <p class="mono empty">暂无文章，敬请期待。</p>
+      ) : (
+        years.map((year) => (
+          <div class="year-group">
+            <h2 class="year mono">{year}</h2>
+            <ol class="rows">
+              {byYear.get(year)!.map((post) => (
+                <li class="row">
+                  <a href={`/blog/${post.id}/`} class="row-link">
+                    <span class="row-main">
+                      <span class="row-title">{post.data.title}</span>
+                      <span class="row-desc">{post.data.description}</span>
+                    </span>
+                    <span class="row-meta">
+                      {post.data.tags.map((t) => <span class="tag">{t}</span>)}
+                      <time class="mono" datetime={post.data.pubDate.toISOString()}>
+                        {dateFmt.format(post.data.pubDate)}
+                      </time>
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </div>
+        ))
+      )}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .blog-index {
+    border-top: none;
+  }
+  .empty {
+    color: var(--ink-soft);
+  }
+  .year-group {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .year {
+    grid-column: span 3;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 300;
+    color: var(--ink-soft);
+    line-height: 1;
+  }
+  .rows {
+    grid-column: span 9;
+    list-style: none;
+    padding: 0;
+    border-top: var(--rule);
+  }
+  .row {
+    border-bottom: var(--rule);
+  }
+  .row-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.7rem 0.5rem;
+    text-decoration: none;
+  }
+  .row-link:hover {
+    background: var(--ink);
+    color: var(--bg);
+  }
+  .row-link:hover .row-desc,
+  .row-link:hover time {
+    color: var(--bg);
+  }
+  .row-main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    min-width: 0;
+  }
+  .row-title {
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+  .row-desc {
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+  }
+  .row-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    white-space: nowrap;
+  }
+  .row-meta time {
+    color: var(--ink-soft);
+  }
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: var(--ink);
+    color: var(--bg);
+    padding: 0.15rem 0.5rem;
+  }
+  @media (max-width: 800px) {
+    .year,
+    .rows {
+      grid-column: 1 / -1;
+    }
+    .row-link {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
+</style>

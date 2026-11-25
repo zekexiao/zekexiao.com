@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="404" description="页面不存在">
+  <section class="nf">
+    <div class="container nf-inner">
+      <svg viewBox="0 0 480 240" class="nf-art" aria-hidden="true">
+        <circle cx="120" cy="120" r="90" fill="#ffffff" stroke="currentColor" stroke-width="3" />
+        <rect x="220" y="30" width="110" height="110" fill="currentColor" />
+        <path d="M240 210 L360 210 L300 140 Z" fill="none" stroke="currentColor" stroke-width="3" />
+        <circle cx="420" cy="60" r="8" fill="currentColor" />
+      </svg>
+      <h1 class="nf-code">404</h1>
+      <p class="mono nf-msg">页面不存在 / PAGE NOT FOUND</p>
+      <a href="/" class="nf-home u-link">返回首页 →</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .nf {
+    padding-block: clamp(2rem, 6vw, 4rem);
+  }
+  .nf-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+  .nf-art {
+    width: min(100%, 22rem);
+    color: var(--ink);
+  }
+  .nf-code {
+    font-size: clamp(4rem, 14vw, 8rem);
+    font-weight: 300;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+  }
+  .nf-msg {
+    color: var(--ink-soft);
+  }
+  .nf-home {
+    font-weight: 500;
+    font-size: 1rem;
+  }
+</style>

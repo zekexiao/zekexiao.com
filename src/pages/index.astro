@@ -1,0 +1,330 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../site.config';
+
+const posts = (await getCollection('blog', ({ data }) =>
+  import.meta.env.PROD ? !data.draft : true,
+))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+const dateFmt = new Intl.DateTimeFormat('zh-CN', { dateStyle: 'medium' });
+---
+
+<BaseLayout>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <h1 class="hero-name" translate="no">
+          <span>ZEKE</span>
+          <span class="hero-name-2">XIAO</span>
+        </h1>
+        <p class="mono hero-role">{site.role}</p>
+        <p class="hero-intro">{site.tagline}</p>
+        <div class="hero-actions">
+          <a href="/blog/" class="btn btn-ink">阅读博客</a>
+          <a href={`mailto:${site.email}`} class="btn btn-outline">联系我</a>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <svg viewBox="0 0 480 480" class="bauhaus">
+          <rect x="0" y="52" width="200" height="14" class="b-ink" />
+          <rect x="330" y="380" width="150" height="14" class="b-ink" />
+          <circle cx="200" cy="200" r="140" class="b-paper b-stroke" stroke-width="3" />
+          <rect x="240" y="140" width="130" height="130" class="b-ink" />
+          <path d="M90 400 L300 400 L195 250 Z" class="b-paper" />
+          <path d="M90 400 L300 400 L195 250 Z" fill="none" stroke-width="3" class="b-stroke" />
+          <circle cx="420" cy="90" r="10" class="b-ink" />
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- 01 关于 -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-num">01</span>
+        <h2 class="section-title">关于</h2>
+      </div>
+      <div class="about-grid">
+        <p class="about-bio">{site.bio}</p>
+        <dl class="facts">
+          <div class="fact"><dt class="mono">姓名</dt><dd>{site.name}</dd></div>
+          <div class="fact"><dt class="mono">角色</dt><dd>{site.role}</dd></div>
+          <div class="fact"><dt class="mono">方向</dt><dd>Web · 工具 · 写作</dd></div>
+          <div class="fact"><dt class="mono">位置</dt><dd>Remote</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 文章 -->
+  <section class="section" id="posts">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-num">02</span>
+        <h2 class="section-title">文章</h2>
+      </div>
+      {posts.length === 0 ? (
+        <p class="mono empty">暂无文章，敬请期待。</p>
+      ) : (
+        <ol class="post-list">
+          {posts.map((post, i) => (
+            <li class="post-row">
+              <a href={`/blog/${post.id}/`} class="post-link">
+                <span class="post-index mono">{String(i + 1).padStart(2, '0')}</span>
+                <span class="post-main">
+                  <span class="post-title">{post.data.title}</span>
+                  <span class="post-desc">{post.data.description}</span>
+                </span>
+                <time class="mono post-date" datetime={post.data.pubDate.toISOString()}>
+                  {dateFmt.format(post.data.pubDate)}
+                </time>
+              </a>
+            </li>
+          ))}
+        </ol>
+      )}
+      <a href="/blog/" class="u-link more">全部文章 →</a>
+    </div>
+  </section>
+
+  <!-- 03 联系 -->
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-num">03</span>
+        <h2 class="section-title">联系</h2>
+      </div>
+      <a href={`mailto:${site.email}`} class="contact-email">{site.email}</a>
+      <ul class="contact-links">
+        {site.links.map((l) => (
+          <li><a href={l.url} class="u-link mono" rel="me noopener">{l.label}</a></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Hero */
+  .hero {
+    padding-block: clamp(2rem, 5vw, 4rem);
+    overflow: hidden;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1.5rem;
+    align-items: center;
+  }
+  .hero-copy {
+    grid-column: span 7;
+  }
+  .hero-name {
+    font-weight: 300;
+    text-transform: uppercase;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    font-size: clamp(2.75rem, 8vw, 6rem);
+    display: flex;
+    flex-direction: column;
+  }
+  .hero-name-2 {
+    color: var(--steel);
+  }
+  .hero-art {
+    grid-column: span 5;
+    max-width: 22rem;
+    justify-self: end;
+  }
+  .hero-role {
+    margin-top: 1rem;
+    color: var(--ink-soft);
+  }
+  .hero-intro {
+    margin-top: 0.75rem;
+    font-size: 1.05rem;
+    max-width: 34ch;
+  }
+  .hero-actions {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-block;
+    padding: 0.45rem 1rem;
+    border: var(--rule);
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    border-radius: 0;
+  }
+  .btn-ink {
+    background: var(--ink);
+    color: var(--bg);
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+  .btn-ink:hover {
+    background: var(--bg);
+    color: var(--ink);
+    box-shadow: none;
+  }
+  .btn-outline {
+    background: var(--bg);
+    color: var(--ink);
+  }
+  .btn-outline:hover {
+    background: var(--ink);
+    color: var(--bg);
+  }
+  .bauhaus {
+    width: 100%;
+    height: auto;
+  }
+  .b-ink {
+    fill: var(--ink);
+  }
+  .b-paper {
+    fill: var(--bg);
+  }
+  .b-stroke {
+    stroke: var(--ink);
+  }
+
+  /* About */
+  .about-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 2rem;
+  }
+  .about-bio {
+    grid-column: span 6;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    max-width: var(--measure);
+  }
+  .facts {
+    grid-column: span 6;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-self: start;
+  }
+  .fact {
+    border: var(--rule);
+    margin: -1px;
+    padding: 0.6rem 0.9rem;
+  }
+  .fact dt {
+    color: var(--ink-soft);
+    margin-bottom: 0.35rem;
+  }
+  .fact dd {
+    font-weight: 500;
+  }
+
+  /* Posts */
+  .post-list {
+    list-style: none;
+    padding: 0;
+    border-top: var(--rule);
+  }
+  .post-row {
+    border-bottom: var(--rule);
+  }
+  .post-link {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr auto;
+    gap: 1rem;
+    align-items: baseline;
+    padding: 0.7rem 0.5rem;
+    text-decoration: none;
+  }
+  .post-link:hover {
+    background: var(--ink);
+    color: var(--bg);
+  }
+  .post-link:hover .post-desc,
+  .post-link:hover .post-date,
+  .post-link:hover .post-index {
+    color: var(--bg);
+  }
+  .post-index {
+    font-size: 1rem;
+    color: var(--ink-soft);
+  }
+  .post-main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+  }
+  .post-title {
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+  .post-desc {
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+  }
+  .post-date {
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+  .more {
+    display: inline-block;
+    margin-top: 1rem;
+    font-weight: 500;
+  }
+  .empty {
+    color: var(--ink-soft);
+  }
+
+  /* Contact */
+  .contact-email {
+    display: inline-block;
+    font-size: clamp(1.25rem, 3.5vw, 2.25rem);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    text-decoration-thickness: 3px;
+    text-underline-offset: 6px;
+  }
+  .contact-links {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    margin-top: 1.25rem;
+  }
+  .contact-links a {
+    color: var(--ink);
+  }
+
+  @media (max-width: 800px) {
+    .hero-copy,
+    .hero-art,
+    .about-bio,
+    .facts {
+      grid-column: 1 / -1;
+    }
+    .hero-art {
+      max-width: 22rem;
+      justify-self: start;
+      margin-top: 1rem;
+    }
+    .post-link {
+      grid-template-columns: 2.5rem 1fr;
+    }
+    .post-date {
+      grid-column: 2;
+    }
+  }
+</style>

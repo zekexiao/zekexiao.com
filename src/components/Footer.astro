@@ -1,0 +1,53 @@
+---
+import { site } from '../site.config';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="footer-band">
+    <div class="container footer-inner">
+      <span class="mono">© {year} {site.name}</span>
+      <ul class="footer-links">
+        {site.links.map((l) => (
+          <li><a href={l.url} rel="me noopener" class="mono">{l.label}</a></li>
+        ))}
+        <li><a href={`mailto:${site.email}`} class="mono">Email</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: auto;
+  }
+  .footer-band {
+    background: var(--black);
+    color: var(--white);
+    padding-block: 1.25rem;
+  }
+  .footer-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    list-style: none;
+    padding: 0;
+  }
+  .footer-links a {
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+  }
+  .footer-links a:hover {
+    color: var(--white);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+  }
+</style>
