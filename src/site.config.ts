@@ -9,6 +9,5 @@ export const site = {
   links: [
     { label: 'GitHub', url: 'https://github.com/zekexiao' }, // TODO: 确认链接
     { label: 'X / Twitter', url: 'https://x.com/zekexiao' }, // TODO: 替换为真实账号
-    { label: 'LinkedIn', url: 'https://www.linkedin.com/in/zekexiao' }, // TODO: 替换为真实账号
   ],
 } as const;

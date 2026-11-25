@@ -42,30 +42,11 @@ const dateFmt = new Intl.DateTimeFormat('zh-CN', { dateStyle: 'medium' });
     </div>
   </section>
 
-  <!-- 01 关于 -->
-  <section class="section" id="about">
-    <div class="container">
-      <div class="section-head">
-        <span class="section-num">01</span>
-        <h2 class="section-title">关于</h2>
-      </div>
-      <div class="about-grid">
-        <p class="about-bio">{site.bio}</p>
-        <dl class="facts">
-          <div class="fact"><dt class="mono">姓名</dt><dd>{site.name}</dd></div>
-          <div class="fact"><dt class="mono">角色</dt><dd>{site.role}</dd></div>
-          <div class="fact"><dt class="mono">方向</dt><dd>Web · 工具 · 写作</dd></div>
-          <div class="fact"><dt class="mono">位置</dt><dd>Remote</dd></div>
-        </dl>
-      </div>
-    </div>
-  </section>
-
-  <!-- 02 文章 -->
+  <!-- 01 文章 -->
   <section class="section" id="posts">
     <div class="container">
       <div class="section-head">
-        <span class="section-num">02</span>
+        <span class="section-num">01</span>
         <h2 class="section-title">文章</h2>
       </div>
       {posts.length === 0 ? (
@@ -89,22 +70,6 @@ const dateFmt = new Intl.DateTimeFormat('zh-CN', { dateStyle: 'medium' });
         </ol>
       )}
       <a href="/blog/" class="u-link more">全部文章 →</a>
-    </div>
-  </section>
-
-  <!-- 03 联系 -->
-  <section class="section" id="contact">
-    <div class="container">
-      <div class="section-head">
-        <span class="section-num">03</span>
-        <h2 class="section-title">联系</h2>
-      </div>
-      <a href={`mailto:${site.email}`} class="contact-email">{site.email}</a>
-      <ul class="contact-links">
-        {site.links.map((l) => (
-          <li><a href={l.url} class="u-link mono" rel="me noopener">{l.label}</a></li>
-        ))}
-      </ul>
     </div>
   </section>
 </BaseLayout>
@@ -198,37 +163,6 @@ const dateFmt = new Intl.DateTimeFormat('zh-CN', { dateStyle: 'medium' });
     stroke: var(--ink);
   }
 
-  /* About */
-  .about-grid {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 2rem;
-  }
-  .about-bio {
-    grid-column: span 6;
-    font-size: 1.1rem;
-    line-height: 1.7;
-    max-width: var(--measure);
-  }
-  .facts {
-    grid-column: span 6;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-self: start;
-  }
-  .fact {
-    border: var(--rule);
-    margin: -1px;
-    padding: 0.6rem 0.9rem;
-  }
-  .fact dt {
-    color: var(--ink-soft);
-    margin-bottom: 0.35rem;
-  }
-  .fact dd {
-    font-weight: 500;
-  }
-
   /* Posts */
   .post-list {
     list-style: none;
@@ -286,33 +220,9 @@ const dateFmt = new Intl.DateTimeFormat('zh-CN', { dateStyle: 'medium' });
     color: var(--ink-soft);
   }
 
-  /* Contact */
-  .contact-email {
-    display: inline-block;
-    font-size: clamp(1.25rem, 3.5vw, 2.25rem);
-    font-weight: 300;
-    letter-spacing: -0.02em;
-    color: var(--ink);
-    text-decoration-thickness: 3px;
-    text-underline-offset: 6px;
-  }
-  .contact-links {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.25rem;
-    margin-top: 1.25rem;
-  }
-  .contact-links a {
-    color: var(--ink);
-  }
-
   @media (max-width: 800px) {
     .hero-copy,
-    .hero-art,
-    .about-bio,
-    .facts {
+    .hero-art {
       grid-column: 1 / -1;
     }
     .hero-art {
