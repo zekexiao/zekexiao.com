@@ -25,7 +25,6 @@ const dateFmt = new Intl.DateTimeFormat('zh-CN', { dateStyle: 'medium' });
         <p class="hero-intro">{site.tagline}</p>
         <div class="hero-actions">
           <a href="/blog/" class="btn btn-ink">阅读博客</a>
-          <a href={`mailto:${site.email}`} class="btn btn-outline">联系我</a>
         </div>
       </div>
       <div class="hero-art" aria-hidden="true">
@@ -140,14 +139,6 @@ const dateFmt = new Intl.DateTimeFormat('zh-CN', { dateStyle: 'medium' });
     background: var(--bg);
     color: var(--ink);
     box-shadow: none;
-  }
-  .btn-outline {
-    background: var(--bg);
-    color: var(--ink);
-  }
-  .btn-outline:hover {
-    background: var(--ink);
-    color: var(--bg);
   }
   .bauhaus {
     width: 100%;
