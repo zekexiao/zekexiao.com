@@ -33,7 +33,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
       crossorigin
     />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta property="og:image" content={new URL('/avatar.webp', Astro.site)} />
     <link rel="alternate" type="application/rss+xml" title={`${site.name} RSS`} href="/rss.xml" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />

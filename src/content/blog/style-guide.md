@@ -67,7 +67,7 @@ npm run preview
 
 ## 图片
 
-<img src="/favicon.svg" alt="包豪斯风格站点图标" width="64" height="64" loading="lazy" />
+<img src="/favicon.png" alt="站点图标" width="48" height="48" loading="lazy" />
 
 ## 分隔线
 
